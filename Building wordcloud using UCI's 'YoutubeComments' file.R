@@ -1,4 +1,4 @@
-#text mining to predict spam/ham using UCI's "youtube comments" file
+#Building wordcloud using UCI's "YoutubeComments" file
 getwd()
 
 #read file
@@ -43,10 +43,3 @@ wordcloud(youtube.corpus.stemming, max.words = 300,
           min.freq = 20, scale = c(2,.5),
           random.order = F, rot.per = .5,
           colors=brewer.pal(8, "Dark2"))
-
-#creating a DTM sparse matrix
-library(SnowballC)
-youtube.dtm <- DocumentTermMatrix(youtube.corpus.stemming)
-str(youtube.dtm)
-class(youtube.dtm)
-View(youtube.dtm)
