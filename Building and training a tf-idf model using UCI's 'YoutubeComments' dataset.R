@@ -60,7 +60,7 @@ train.tokens <- tokens_tolower(train.tokens)
 train.tokens <- tokens_select(train.tokens,stopwords(),selection = 'remove')
 train.tokens <- tokens_wordstem(train.tokens, language = 'english')
 train.tokens <- tokens_remove(train.tokens, " ", remove()) #stripWhiteSpaces
-View(train.tokens)
+View(train.tokens) #list
 
 #*************************************
 #Part.IV: Building final df using dfm
@@ -76,8 +76,8 @@ dim(train.tokens.matrix)
 View(train.tokens.matrix[1:20,1:100]) #viewing partially, instead of the whole doc
 colnames(train.tokens.matrix)[1:30]
 #make a final dataframe by cbinding 'Class' column to the dfm
+length(train$Class) #same as train.tokens.dfm, hence can be cbinded
 train.tokens.df <- cbind(Class = train$Class , as.data.frame(train.tokens.dfm))
-length(train$Class)
 dim(train.tokens.df)
 View(train.tokens.df[1:10,1:15])
 #Making syntactially valid names, using make.names()
@@ -144,16 +144,17 @@ View(train.tokens.tfidf[1:5,1:5])
 
 #Step.5: check for incomplete.cases
 incomplete.cases <- which(!complete.cases(train.tokens.tfidf))
-head(train$Content[incomplete.cases])#notice an emoji/special symbols
-head(train.tokens.tfidf[incomplete.cases])
+train$Content[incomplete.cases]#notice an emoji/special symbols
+View(train.tokens.tfidf[incomplete.cases,])
 #Fixing these incomplete cases
 train.tokens.tfidf[incomplete.cases, ] <- rep(0, ncol(train.tokens.tfidf))
-head(train.tokens.tfidf[incomplete.cases])
-tail(train.tokens.tfidf[incomplete.cases])
-dim(train.tokens.tfidf)
+head(train.tokens.tfidf[incomplete.cases,])
+tail(train.tokens.tfidf[incomplete.cases,])
 sum(which(!complete.cases(train.tokens.tfidf)))
 
 #Step.6: Make the final df by cbinding 'Class' variable
+dim(train.tokens.tfidf)
+length(train$Class)
 train.tokens.tfidf.df <- cbind(Class = train$Class, as.data.frame(train.tokens.tfidf))
 names(train.tokens.tfidf.df) <- make.names(names(train.tokens.tfidf.df))
 dim(train.tokens.tfidf.df)
